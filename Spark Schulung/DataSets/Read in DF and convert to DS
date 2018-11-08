@@ -1,0 +1,21 @@
+val song = spark.read
+.option("inferSchema", true)
+.option("header", true)
+.option("delimiter", ",")
+.csv("dbfs:/cs-spark-training/SongDS/SongDS.csv")
+song.printSchema()
+song.show(false)
+
+case class Schema(artist: String, loudness: Double, songs: String)
+
+val songDS = song.as[Schema]
+songDS.printSchema()
+songDS.show(false)
+
+//high level
+songDS.filter($"loudness" > -7.0).show()
+
+//convert DataFrame zu Dataset ohne case class
+val songTupel = song.as[(String, Double, String)]
+songTupel.show(false)
+songTupel.filter($"songs" like "%Starlight%").show()  //high level example

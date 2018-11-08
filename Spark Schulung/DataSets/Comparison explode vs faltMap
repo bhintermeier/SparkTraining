@@ -1,0 +1,30 @@
+import org.apache.spark.sql.functions._
+
+val literature = spark.read
+.option("inferSchema", true)
+.option("header", true)
+.option("delimiter", " ")
+.csv("dbfs:/FileStore/tables/TestDS.csv")
+literature.show(false)
+
+
+case class Book(title: String, words: String)
+   //val ds: Dataset[Book]
+    val ds = literature.as[Book]
+    ds.show()
+
+    val allWords = ds.select('title, explode(split('words, ",")).as("word"))
+
+allWords.show()
+
+   val bookCountPerWord = allWords.groupBy("word").agg(countDistinct("title"))
+
+bookCountPerWord.show()
+ 
+
+
+ds.flatMap(_.words.split(" ")).show()
+
+val ds2 = ds.as[(String, String)]
+//ds2.flatMap { t => t._2.map { prp => (t._1, prp) }}.show
+ds2.flatMap { t => t._2.split(",").map { prp => (t._1, prp) }}.show

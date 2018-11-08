@@ -1,0 +1,37 @@
+case class Music(artist: String, loudness: Double, songs: String)
+{
+
+def checkArtist(band: String): Option[(String, Double, String)] = {
+      if (artist == band) {
+        Some(artist, loudness, songs)
+      } else {
+        None
+      }
+    }
+
+}
+
+musicDS.map(t => t.checkArtist("Muse").getOrElse(("XYX", 0.0, "XYX")))
+                          .withColumnRenamed("_1", "artist")
+                          .withColumnRenamed("_2", "loudness")
+                          .withColumnRenamed("_3", "songs")
+
+
+
+
+//ALTERNATIV
+case class Music(artist: String, loudness: Double, songs: String)
+{
+def checkArtist(band: String): (String, Double, String) = {
+      if (artist == band) {
+        (artist, loudness, songs)
+      } else {
+        ("nothing", 0.0, "nothing")
+      }
+    }
+    }
+
+    musicDS.map(t => t.checkArtist("Muse"))
+                          .withColumnRenamed("_1", "artist")
+                          .withColumnRenamed("_2", "loudness")
+                          .withColumnRenamed("_3", "songs")

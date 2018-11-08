@@ -1,0 +1,9 @@
+val test = songDF.withColumn("_tmp", split($"songs", ","))  //transfers songs into an array
+                 .select($"artist",
+                         $"loudness",
+                         $"_tmp".getItem(0).as("song1"),
+                         $"_tmp".getItem(1).as("song2"),
+                         $"_tmp".getItem(2).as("song3"))
+                 .drop("_tmp") 
+test.printSchema()
+test.show()

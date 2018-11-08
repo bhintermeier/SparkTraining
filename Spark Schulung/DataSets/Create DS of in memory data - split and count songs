@@ -1,0 +1,10 @@
+val songDS = sc.parallelize(Seq("Beastie Boys, -5.0, Sabotage, Intergalactic", "Frank Sinatra, -10.0, My Way", "Muse, -7.0, Uprising, Startlight, Madness")).toDS()
+songDS.show()
+songDS.printSchema()
+
+val groupedSong = songDS.flatMap(_.toLowerCase.split(" "))
+                              .filter(_ != "")
+                              .groupBy("value")
+
+val countsDataset = groupedSong.count()
+countsDataset.show(false)

@@ -1,0 +1,53 @@
+/*val songCol = //songDS.flatMap(_.split(","))   //jede Spalte
+                songDS.select($"songs").as[String] //nur Spalte "songs"
+val songDSFM = songCol.flatMap(_.split(","))
+songDSFM.show(false)
+songDSFM.printSchema()*/
+
+
+//funktioniert nicht
+val songCol = songDS.select($"artist", $"songs").as[(String,String)]
+songCol.printSchema()
+songCol.show(false)
+
+//val songDSFM = songCol.flatMap(t => Seq(t.1, t._2))  //flattet beide Spalten in einer
+//val songDSFM = songCol.flatMap(t => Seq(t._2.split(","))) //convertet nur Spalte "Song" in ein Array[String]
+//val songDSFM = songCol.flatMap(t => t._2.split(",")) //flattet nur Spalte "Song" 
+//val songDSFM = songCol.flatMap(t => (t._1,t._2.split(",")))  //error: type mismatch; found (String, Array[String]) required TraversableOnce
+/*val songDSFM = songCol.flatMap(t => t._2.split(",").map {song => (t._1, song)})
+                      .withColumnRenamed("_1", "artist")
+                      .withColumnRenamed("_2", "songs")
+                      .groupBy($"artist")
+                      .count()*/
+
+val songDSFM = songTupel.flatMap(t => t._3.split(",").map {song => (t._1, t._2, song)})
+                      .withColumnRenamed("_1", "artist")
+                      .withColumnRenamed("_2", "loudness")
+                      .withColumnRenamed("_3", "songs")
+                      .groupBy($"artist")
+                      .count()
+                      .filter($"artist" like "M%")  //Kombi low und high level
+
+songDSFM.show(false)
+
+
+
+
+
+
+
+
+
+//Kommentiert und in einem Stück
+val songDsNamed = songDS.flatMap(t => t._3.split(",").map {song => (t._1, t._2, song)}) //(Typed) Transformation     ->   Dataset
+                      .withColumnRenamed("_1", "artist")                             //(Untyped) Transformation   ->   DataFrame
+                      .withColumnRenamed("_2", "loudness")                           //(Untyped) Transformation   ->   DataFrame
+                      .withColumnRenamed("_3", "songs")                              //(Untyped) Transformation   ->   DataFrame
+                      .groupBy($"artist")                                            //(Untyped) Transformation   ->   DataFrame
+                      .count()                                                       //Action                     ->   DataFrame
+                      .filter($"artist" like "M%")                                   //(Typed) Transformation     ->   Dataset
+
+//Kombi low und high level
+//Unterscheidung High und low level????
+
+songDSFM.show(false)

@@ -1,0 +1,54 @@
+Spark Schulung:
+
+
+- Tipp Dennis: nicht auf Databricks sondern auf google hosten! Für konkreten Service nochmal Dennis fragen!
+
+
+Hinweise im Training:
+- Evtl. flatMap, map, Tuples in Dataset Teil erklären bzw. Wiederholen!!!
+- 'display' command von Databricks in Übungsteil zeigen/erklären
+- Demo sparkContext, SparkSession in shell demonstrieren (üben)
+- .flatmap an Bsp. "Spark word count" erklären (.flatMap(x => x.split("Spark") -> .flatMap(x => x.split(" ") -> .flatMap(x => x.split(""))
+
+
+
+
+TODO:
+- Übersetzung in Python
+- Python cheat sheet
+- basePath in Übung 3.
+- timestamp parsing in Übung 3.
+- Übung 1 und 2 (Markus): für Operations v.a. RDD s.a. "Exercise" aus Theoriekapitel 1.
+- Notebook aufräumen: Nicht benötigte Inhalte separieren
+- kleinere Übungen zu Performance einfügen.
+- Klären Clustergröße und Konfiguration, Anzahl Teilnehmer, zu verwendendes Dateisystem (S3, dbfs, o.ä.), Wie Datenablage im allgemeinen organisieren
+- Backups erstellen für Schulung, Notebooks, Daten?
+- Check Beschreibung von Exercise 4
+- Check Kap 1.5.5 (Spalteninfo v. RDD wenn aus DF erzeugt???)
+- Check ob typed/untyped transformations in Dataset teil wirklich so ablaufen (lazy evaluation)
+- Klären: externe Link, Quellenangabe (s.a. Cloudera Hadoop picture in "Overview")
+
+
+Wiederholen/Einlesen:
+- Üben RDD (allgemein versuchen Übungen als RDDs zu lösen)
+- flatmap, map
+- Dataset mit schema erstellen
+- Was genau ist eine "Rows"? (S.a. Cloudera S. 130) -> wichtig für Conversion
+- "Group Exercise" -> versuche selbst zu lösen mit '.contain' wie in spark.org -> "Quick start"
+- .cast im allgemeinen
+- Broadcasting
+- Check
+- createDataset (Schema nicht definierbar im vgl. zu createDataFrame)
+- implicits
+- typed vs. untyped
+- high level vs. low level
+
+
+
+
+
+Inhalte für advanced training:
+- UDF
+- Window functions
+- Scala (pattern matching etc.)
+- pairRDDs, DoubleRDDs

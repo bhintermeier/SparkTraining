@@ -1,0 +1,1 @@
+val songDF100 = songDF99.withColumn("b", split($"ratingPair", ",").cast("array<string>")).drop($"ratingPair").withColumnRenamed("b", "ratingPair")

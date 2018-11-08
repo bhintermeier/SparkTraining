@@ -1,0 +1,8 @@
+val wordsDataset = sc.parallelize(Seq("Spark I am your father", "May the spark be with you", "Spark I am your father")).toDS()
+wordsDataset.show()
+wordsDataset.printSchema()
+val groupedDataset = wordsDataset.flatMap(_.toLowerCase.split(" ")).show()
+                                  //.filter(_ != "")
+                                 //.groupBy("value")
+//val countsDataset = groupedDataset.count()
+//countsDataset.show()

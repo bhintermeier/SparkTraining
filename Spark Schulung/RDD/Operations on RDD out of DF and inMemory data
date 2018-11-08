@@ -1,0 +1,38 @@
+//Create RDD out of DF
+
+//The easiest way of creating a RDD is to load the data as a DataFrame and convert it to a RDD
+val songDF = spark.read.load(dataPath2)
+songDF.show(false)
+
+val songRDD = songDF.rdd
+
+songRDD.filter(loud => loud.getAs[Double]("loudness") > -8.0).collect
+
+val filteredSongArray = songRDD
+                          .filter(row => row.getAs[Double]("loudness") > -8.0)  //only row filter (column 'artist' remains)
+                          .map(row => row.getAs[String]("artist"))              //select only column 'artist' respectively drop column 'loudness'
+                          .collect
+                          .foreach(println)
+
+
+
+
+
+
+
+//Create RDD out of in-memory data
+val songArray = Array(
+    ("Beastie Boys", -5.0),
+    ("Frank Sinatra", -10.0), 
+    ("Muse", -7.0)
+  )
+
+  val songRDD2 = sc.parallelize(songArray)
+songRDD2.collect.foreach(println)
+
+
+val fil = songRDD2
+            .filter(x => x._2 > -8.0)
+            .map(x => x._1)
+            .collect
+            .foreach(println)

@@ -1,0 +1,3 @@
+val mile2km = (miles: Double) => { miles * 1.60934 }
+val mile2km_udf = udf[Double, Double]( mile2km(_) )
+display(taxiDataDF.select($"trip_distance", mile2km_udf($"trip_distance").alias("dist_km")))

@@ -1,0 +1,8 @@
+***Task 4.9***
+Query the total amount of trips and the average distance per hour (0 until 23) on basis of the pickup time.
+
+display(taxiDataDF.withColumn("hour",hour(col("pickup_datetime"))) // extract hour from timestamp
+.groupBy("hour") // group by hour
+.agg(mean(col("trip_distance")), count(col("*")).alias("count")) // compute mean trip distance and count per hour
+.orderBy(desc("avg(trip_distance)")) // order by mean trip distance
+)
